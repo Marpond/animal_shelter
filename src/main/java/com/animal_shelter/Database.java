@@ -45,7 +45,8 @@ public class Database
         }
     }
     // Create select method
-    public ArrayList<String> select(String query) throws SQLException {
+    public ArrayList<String> returns(String query)
+    {
         ArrayList<String> list = new ArrayList<>();
         connect();
         try
@@ -73,7 +74,7 @@ public class Database
         return list;
     }
     // Create insert method
-    public void execute(String query)
+    public void executes(String query)
     {
         connect();
         try
