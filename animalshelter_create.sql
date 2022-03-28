@@ -51,16 +51,10 @@ create table tbl_Payments
     fld_Booking_ID int foreign key references tbl_Bookings,
     fld_Payment_Amount double precision
 )go
--- Create a procedure to return the start date of a booking
-create procedure get_booking_start(@booking_id int) as
+-- Create a procedure to get all bookings for the cage with the given ID
+create procedure get_bookings(@cage_id int) as
 begin
-    select fld_Booking_Start from tbl_Bookings where fld_Booking_ID = @booking_id
-end
-go
--- Create a procedure to return the end date of a booking by using the cage id
-create procedure get_booking_end(@cage_id int) as
-begin
-    select fld_Booking_End from tbl_Bookings where fld_Booking_ID = @cage_id
+    select fld_Booking_Start, fld_Booking_End from tbl_Bookings where fld_Booking_ID = @cage_id
 end
 go
 -- Create a procedure to return the number of days since epoch

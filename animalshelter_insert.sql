@@ -23,8 +23,8 @@ go
 insert into tbl_Bookings (fld_Customer_ID, fld_Animal_ID, fld_Cage_ID, fld_Booking_Start, fld_Booking_End)
 values (1, 1, 1, 19079, 19085),
        (1, 1, 1, 19086, 19091),
-       (3, 3, 2, 19091, 19197),
-       (4, 4, 3, 19193, 19197),
+       (3, 3, 2, 19091, 19114),
+       (4, 4, 3, 19093, 19097),
        (2, 2, 2, 19100, 19113)
 go
 -- Insert multiple rows into tbl_Extra_Services

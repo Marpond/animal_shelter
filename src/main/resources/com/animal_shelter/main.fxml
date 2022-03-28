@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.Controller">
    <children>
       <ListView fx:id="cageListView" layoutX="72.0" layoutY="100.0" prefHeight="200.0" prefWidth="170.0" />
+      <ListView fx:id="datesListView" layoutX="300.0" layoutY="58.0" prefHeight="306.0" prefWidth="269.0" />
+      <Text fx:id="selectedCageText" layoutX="357.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="156.0" />
    </children>
 </AnchorPane>
