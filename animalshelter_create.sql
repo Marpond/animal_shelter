@@ -58,9 +58,9 @@ begin
 end
 go
 -- Create a procedure to return the number of days since epoch
-create procedure get_days_since_epoch as
+create procedure get_seconds_since_epoch as
 begin
-    select DATEDIFF(day, '1970-01-01', GETDATE())
+    select DATEDIFF(second, '1970-01-01', GETDATE())
 end
 go
 -- Create a procedure to insert a new booking
