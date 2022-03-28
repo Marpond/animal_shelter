@@ -7,10 +7,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Controller implements Initializable
 {
@@ -34,11 +33,11 @@ public class Controller implements Initializable
     @FXML
     private Button selectEndButton;
 
-    private int selectedDate = 0;
-    private int selectedStartDate = 0;
-    private int selectedEndDate = 0;
+    private String selectedDate;
+    private String selectedStartDate;
+    private String selectedEndDate;
 
-    private final int DATE_LIST_LENGTH = 100;
+    private final int DATE_LIST_LENGTH = 56;
 
     private int selectedCageID;
     private String selectedCageSize;
@@ -47,6 +46,7 @@ public class Controller implements Initializable
     private double totalPrice;
 
     private final ArrayList<Long> epochDates = getDates(DATE_LIST_LENGTH);
+    private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -62,20 +62,31 @@ public class Controller implements Initializable
         setDateButtonListener();
     }
 
+    // Formats an epoch long to a date string with the format yyyy-MM-dd
+    private String formatEpochToDate(long epoch)
+    {
+        return sdf.format(new Date(epoch * 1000));
+    }
+
+    // Parses a string date with the format yyyy-MM-dd to an epoch long
+    private long parseDateToEpoch(String date)
+    {
+        try {return sdf.parse(date).getTime() / 1000;}
+        catch (Exception e) {return 0;}
+    }
     /**
      * Creates an arraylist of epoch seconds, each element represents a day in the future since today
      * @param length The length of the arraylist
-     * @return An arraylist of integers
+     * @return An arraylist of longs representing the epoch seconds of the future days
      */
     private ArrayList<Long> getDates(int length)
     {
-        ArrayList<Long> calendarDates = new ArrayList<>();
+        ArrayList<Long> temp = new ArrayList<>();
+        // Get the current date with an SQL query
         long currentDay = Long.parseLong(DB.returns("get_seconds_since_epoch").get(0));
-        for (int i = 0; i <= length; i++)
-        {
-            calendarDates.add(currentDay + ((long) i *60*60*24));
-        }
-        return calendarDates;
+        // Add the epoch seconds of the future days to the arraylist by incrementing the current day
+        for (int i = 0; i <= length; i++) {temp.add(currentDay + ((long) i *60*60*24));}
+        return temp;
     }
 
     // Sets the values of the list view to the values of the database
@@ -99,24 +110,30 @@ public class Controller implements Initializable
         // Adds the dates to the list view
         for (long i:epochDates)
         {
-            // Convert the epoch date to a readable date
-            Date d = new Date( i * 1000 );
-            datesListView.getItems().add(String.valueOf(d));
+            // Convert the epoch date to a readable date and add it to the list view
+            datesListView.getItems().add(formatEpochToDate(i));
         }
         // Remove booked dates
         for (String s:DB.returns("select fld_booking_start, fld_booking_end from tbl_bookings where fld_Cage_id = " + cageID))
         {
-            for (int i = Integer.parseInt(s.split(" ")[0]); i <= Integer.parseInt(s.split(" ")[1]); i++)
+            int startIndex;
+            int endIndex;
+            // Get the index of the start date
+            for (startIndex = 0; startIndex < epochDates.size(); startIndex++)
             {
-                /*
-                TODO: Fix tbl_Bookings epoch dates, they are not correct (to long!!!)
-                 This tries to delete an epoch value from a humanly readable date list
-                 We have to convert the deletable epoch values to humanly readable dates
-                 Preferably we should format the dates this way: Day Month Daynumber Year,
-                 Then just get the string.valueOf(date) and remove it from the list
-                 */
-
-                datesListView.getItems().remove(String.valueOf(i));
+                // If the formatted epoch is equal to the selected start date, break
+                if (formatEpochToDate(epochDates.get(startIndex)).equals(s.split(" ")[0])) {break;}
+            }
+            // Get the index of the end date
+            for (endIndex = 0; endIndex < epochDates.size(); endIndex++)
+            {
+                // If the formatted epoch is equal to the selected end date, break
+                if (formatEpochToDate(epochDates.get(endIndex)).equals(s.split(" ")[1])) {break;}
+            }
+            // Remove the dates between the start and end date
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                datesListView.getItems().remove(formatEpochToDate(epochDates.get(i)));
             }
         }
     }
@@ -162,7 +179,7 @@ public class Controller implements Initializable
         {
             if (newValue != null)
             {
-                selectedDate = Integer.parseInt(newValue);
+                selectedDate = newValue;
             }
         });
     }
@@ -173,7 +190,7 @@ public class Controller implements Initializable
         // Set the listener for the start date button
         selectStartButton.setOnAction(event ->
         {
-            if (selectedDate != 0)
+            if (selectedDate != null)
             {
                 // Set the start date
                 selectedStartDate = selectedDate;
@@ -183,17 +200,14 @@ public class Controller implements Initializable
                 selectEndButton.setDisable(false);
                 // Set the start text
                 startText.setText(String.format("Start date: %s", selectedStartDate));
-                for (int i = Integer.parseInt(DB.returns("get_days_since_epoch").get(0)); i < selectedStartDate; i++)
-                {
-                    // Remove the date from the list view
-                    datesListView.getItems().remove(String.valueOf(i));
-                }
+                // If the date is before the start date, remove it
+                datesListView.getItems().removeIf(s -> s.compareTo(selectedStartDate) < 0);
             }
         });
         // Set the listener for the end date button
         selectEndButton.setOnAction(event ->
         {
-            if (selectedDate != 0)
+            if (selectedDate != null)
             {
                 // Set the end date
                 selectedEndDate = selectedDate;
@@ -201,8 +215,11 @@ public class Controller implements Initializable
                 selectEndButton.setDisable(true);
                 // Set the end text
                 endText.setText(String.format("End date: %s", selectedEndDate));
+                // Parse the dates to epoch
+                long startEpoch = parseDateToEpoch(selectedStartDate);
+                long endEpoch = parseDateToEpoch(selectedEndDate);
                 // Calculate the total price
-                totalPrice = (selectedEndDate - selectedStartDate) * selectedCagePrice;
+                totalPrice = (endEpoch - startEpoch) / 86400 * selectedCagePrice;
                 // Set the total price text
                 priceText.setText(String.format("Total price: %.2f", totalPrice));
             }

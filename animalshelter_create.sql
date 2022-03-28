@@ -30,8 +30,8 @@ create table tbl_Bookings
     fld_Customer_ID int foreign key references tbl_Customers,
     fld_Animal_ID int foreign key references tbl_Animals,
     fld_Cage_ID int foreign key references tbl_Cages,
-    fld_Booking_Start int,
-    fld_Booking_End int
+    fld_Booking_Start date,
+    fld_Booking_End date
 )go
 create table tbl_Extra_Services
 (
@@ -64,7 +64,7 @@ begin
 end
 go
 -- Create a procedure to insert a new booking
-create procedure insert_booking (@customer_id int, @cage_id int, @animal_id int, @booking_start int, @booking_end int) as
+create procedure insert_booking (@customer_id int, @cage_id int, @animal_id int, @booking_start date, @booking_end date) as
     insert into tbl_Bookings (fld_customer_id, fld_cage_id, fld_animal_id, fld_booking_start, fld_booking_end)
     values (@customer_id, @cage_id, @animal_id, @booking_start, @booking_end)
 go
