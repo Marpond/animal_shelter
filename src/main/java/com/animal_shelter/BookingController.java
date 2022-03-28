@@ -11,11 +11,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Controller implements Initializable
+public class BookingController implements Initializable
 {
+    private final int DATE_LIST_LENGTH = 56;
+
     private final HashMap<Integer, String> SIZES = new HashMap<>();
     private final Database DB = new Database();
 
+    // FXML variables
     @FXML
     private ListView<String> cageListView;
     @FXML
@@ -32,12 +35,12 @@ public class Controller implements Initializable
     private Button selectStartButton;
     @FXML
     private Button selectEndButton;
+    @FXML
+    private Button proceedButton;
 
     private String selectedDate;
     private String selectedStartDate;
     private String selectedEndDate;
-
-    private final int DATE_LIST_LENGTH = 56;
 
     private int selectedCageID;
     private String selectedCageSize;
@@ -60,6 +63,19 @@ public class Controller implements Initializable
         setCageListListener();
         setDatesListListener();
         setDateButtonListener();
+        // Disable proceed button
+        proceedButton.setDisable(true);
+    }
+
+    @FXML
+    private void resetBooking()
+    {
+        SceneController.switchTo("booking");
+    }
+    @FXML
+    private void switchToRegistration()
+    {
+        SceneController.switchTo("registration");
     }
 
     // Formats an epoch long to a date string with the format yyyy-MM-dd
@@ -219,9 +235,11 @@ public class Controller implements Initializable
                 long startEpoch = parseDateToEpoch(selectedStartDate);
                 long endEpoch = parseDateToEpoch(selectedEndDate);
                 // Calculate the total price
-                totalPrice = (endEpoch - startEpoch) / 86400 * selectedCagePrice;
+                totalPrice = ((endEpoch - startEpoch) / 86400 +1)* selectedCagePrice;
                 // Set the total price text
                 priceText.setText(String.format("Total price: %.2f", totalPrice));
+                // Enable the proceed button
+                proceedButton.setDisable(false);
             }
         });
     }

@@ -44,7 +44,7 @@ public class Database
             e.printStackTrace();
         }
     }
-    // Create select method
+
     public ArrayList<String> returns(String query)
     {
         ArrayList<String> list = new ArrayList<>();
@@ -73,7 +73,7 @@ public class Database
         }
         return list;
     }
-    // Create insert method
+
     public void executes(String query)
     {
         connect();
