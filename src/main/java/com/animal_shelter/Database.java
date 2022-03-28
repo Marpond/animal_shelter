@@ -18,7 +18,8 @@ public class Database
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" +
+            connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;" +
                     "trustServerCertificate=true;" +
                     "database=AnimalShelter;" +
                     "user=sa;" +
@@ -34,12 +35,9 @@ public class Database
     {
         try
         {
-            if (resultSet != null)
-                resultSet.close();
-            if (preparedStatement != null)
-                preparedStatement.close();
-            if (connection != null)
-                connection.close();
+            if (resultSet != null)          resultSet.close();
+            if (preparedStatement != null)  preparedStatement.close();
+            if (connection != null)         connection.close();
         }
         catch (Exception e)
         {
