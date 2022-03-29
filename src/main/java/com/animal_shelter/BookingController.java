@@ -53,6 +53,11 @@ public class BookingController implements Initializable
     private final ArrayList<Long> epochDates = getDates(DATE_LIST_LENGTH);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Initializes the controller class, this method is automatically called after the fxml file has been loaded
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -74,12 +79,13 @@ public class BookingController implements Initializable
     @FXML
     private void resetBooking()
     {
-        SceneController.switchTo("booking");
+        SceneController.load("booking");
     }
+
     @FXML
     private void switchToRegistration()
     {
-        SceneController.switchTo("registration");
+        SceneController.load("registration");
         // Print out the stuff for debugging
         System.out.println("Selected Cage ID: " + selectedCageID);
         System.out.println("Selected Cage Size: " + selectedCageSize);
@@ -91,13 +97,21 @@ public class BookingController implements Initializable
 
     }
 
-    // Formats an epoch long to a date string with the format yyyy-MM-dd
+    /**
+     * Formats an epoch long to a date string in the format yyyy-MM-dd
+     * @param epoch The epoch long to format
+     * @return The formatted date string
+     */
     private String formatEpochToDate(long epoch)
     {
         return sdf.format(new Date(epoch * 1000));
     }
 
-    // Parses a string date with the format yyyy-MM-dd to an epoch long
+    /**
+     * Parses a date string with the format yyyy-MM-dd to an epoch long
+     * @param date The date string to parse
+     * @return The epoch long of the date
+     */
     private long parseDateToEpoch(String date)
     {
         try {return sdf.parse(date).getTime() / 1000;}
@@ -124,6 +138,7 @@ public class BookingController implements Initializable
         cageListView.getItems().clear();
         for (String s : DB.returns("select fld_Cage_ID from tbl_cages"))
         {
+            // Add the cage ID to the list view
             cageListView.getItems().add(String.format("Cage no. %s", s));
         }
     }
@@ -134,7 +149,6 @@ public class BookingController implements Initializable
      */
     private void setDatesList(int cageID)
     {
-        // Clears the list view
         datesListView.getItems().clear();
         // Adds the dates to the list view
         for (long i:epochDates)
@@ -143,7 +157,8 @@ public class BookingController implements Initializable
             datesListView.getItems().add(formatEpochToDate(i));
         }
         // Remove booked dates
-        for (String s:DB.returns("select fld_booking_start, fld_booking_end from tbl_bookings where fld_Cage_id = " + cageID))
+        for (String s:DB.returns("select fld_booking_start, fld_booking_end " +
+                                "from tbl_bookings where fld_Cage_id = " + cageID))
         {
             int startIndex;
             int endIndex;
@@ -162,7 +177,10 @@ public class BookingController implements Initializable
             // Remove the dates between the start and end date
             for (int i = startIndex; i <= endIndex; i++)
             {
-                datesListView.getItems().remove(formatEpochToDate(epochDates.get(i)));
+                // Remove the date from the list view
+                try {datesListView.getItems().remove(formatEpochToDate(epochDates.get(i)));}
+                // If the date is not in the list view, do nothing
+                catch (Exception ignored) {}
             }
         }
     }
@@ -180,7 +198,8 @@ public class BookingController implements Initializable
                 setDatesList(selectedCageID);
                 // Get the cage price
                 selectedCagePrice = Double.parseDouble(
-                        DB.returns("select fld_cage_price_per_day from tbl_cages where fld_cage_id = " + selectedCageID).get(0));
+                        DB.returns("select fld_cage_price_per_day " +
+                                    "from tbl_cages where fld_cage_id = " + selectedCageID).get(0));
                 // Get the cage size
                 selectedCageSize = SIZES.get(Integer.parseInt(newValue.split(" ")[2]));
                 // Set the selected cage text
@@ -206,10 +225,8 @@ public class BookingController implements Initializable
             // Otherwise disable them
             selectStartButton.setDisable(newValue == null);
             selectEndButton.setDisable(newValue == null);
-            if (newValue != null)
-            {
-                selectedDate = newValue;
-            }
+            // If a date is selected, set the selected date
+            if (newValue != null) {selectedDate = newValue;}
         });
     }
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Animals</OriginalElement>
+  <nodes>
+    <node x="168.5340909090909" y="376.0">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings</node>
+    <node x="0.0" y="0.0">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Customers</node>
+    <node x="156.0340909090909" y="612.0">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Payments</node>
+    <node x="377.5340909090909" y="413.5">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Services</node>
+    <node x="427.0340909090909" y="200.5">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Cages</node>
+    <node x="394.5340909090909" y="612.0">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Service_Link</node>
+    <node x="117.0340909090909" y="188.0">067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Animals</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Payments" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings" relationship="REFERENCES">
+      <point x="0.0" y="-55.5" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Customers" relationship="REFERENCES">
+      <point x="-62.33333333333337" y="-93.0" />
+      <point x="199.70075757575754" y="350.0" />
+      <point x="106.5340909090909" y="350.0" />
+      <point x="106.5340909090909" y="162.0" />
+      <point x="161.5" y="162.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Service_Link" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Services" relationship="REFERENCES">
+      <point x="56.0" y="-55.5" />
+      <point x="562.5340909090909" y="587.0" />
+      <point x="498.0340909090909" y="587.0" />
+      <point x="0.0" y="55.5" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Service_Link" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings" relationship="REFERENCES">
+      <point x="-56.0" y="-55.5" />
+      <point x="450.5340909090909" y="587.0" />
+      <point x="262.0340909090909" y="587.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Cages" relationship="REFERENCES">
+      <point x="62.333333333333314" y="-93.0" />
+      <point x="324.36742424242425" y="350.0" />
+      <point x="544.0340909090909" y="350.0" />
+      <point x="0.0" y="55.5" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Bookings" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Animals" relationship="REFERENCES">
+      <point x="0.0" y="-93.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Animals" target="067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Customers" relationship="REFERENCES">
+      <point x="0.0" y="-68.0" />
+      <point x="262.0340909090909" y="162.0" />
+      <point x="161.5" y="162.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8209959623149394" showDependencies="false" x="331.0" y="361.5" />
+  <SelectedNodes>
+    <node>067b9e1c-2409-4147-85dc-7905e56374fe.TABLE:AnimalShelter.dbo.tbl_Extra_Service_Link</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

@@ -15,13 +15,18 @@ public class Database
     // Constructor
     public Database() {}
 
+    /**
+     * Connects to the database
+     */
     private void connect()
     {
         try
         {
+            // Load the properties file
             Properties properties = new Properties();
             properties.load(new FileInputStream("src/main/resources/database.properties"));
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Connect to the database
             connection = DriverManager.getConnection(
                     "jdbc:sqlserver://localhost:1433;"+
                     "trustServerCertificate=true;"+
@@ -29,12 +34,12 @@ public class Database
                     "user="+properties.getProperty("username")+";"+
                     "password="+properties.getProperty("password"));
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        catch (Exception e) {e.printStackTrace();}
     }
 
+    /**
+     * Disconnects from the database
+     */
     private void disconnect()
     {
         try
@@ -49,6 +54,11 @@ public class Database
         }
     }
 
+    /**
+     * Returns an ArrayList of Strings containing the values of each column in the resultSet
+     * @param query SQL query
+     * @return ArrayList of Strings
+     */
     public ArrayList<String> returns(String query)
     {
         ArrayList<String> list = new ArrayList<>();
@@ -78,6 +88,10 @@ public class Database
         return list;
     }
 
+    /**
+     * Executes an SQL query
+     * @param query SQL query
+     */
     public void executes(String query)
     {
         connect();
