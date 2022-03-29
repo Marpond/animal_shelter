@@ -10,8 +10,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 //TODO:
-// Needed functions: addCustomer, addPet
-// Finishing touch: receipt.
+// Needed functions: addPet, receipt.
 public class RegistrationController implements Initializable
 {
     private final Database DB = new Database();
