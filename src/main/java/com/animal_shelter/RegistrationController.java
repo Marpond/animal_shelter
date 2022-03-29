@@ -26,10 +26,13 @@ public class RegistrationController implements Initializable
     @FXML
     private Button addPetButton;
     @FXML
+    private Button paymentButton;
+    @FXML
     private Text customerSelectionConfirmationText;
     @FXML
     private Text petSelectionConfirmationText;
 
+    public static String selectedCustomerName;
     public static int selectedCustomerID;
     public static int selectedPetID;
 
@@ -40,6 +43,7 @@ public class RegistrationController implements Initializable
         searchCustomerButton.setDisable(true);
         customerDetailsListView.setDisable(true);
         addPetButton.setDisable(true);
+        paymentButton.setDisable(true);
         // Set the listeners for the customerPhoneNoTextField
         setCustomerPhoneNoTextFieldListener();
         setCustomerPetsListViewListener();
@@ -75,6 +79,8 @@ public class RegistrationController implements Initializable
                 selectedPetID = Integer.parseInt(newValue.split(" ")[0]);
                 // Set the petSelectionConfirmationText to the name of the selected pet
                 petSelectionConfirmationText.setText(String.format("%s selected.", newValue.split(" ")[1]));
+                // Enable the paymentButton
+                paymentButton.setDisable(false);
             }
             // If the selected item is null, do nothing
             catch (Exception ignored) {}
@@ -90,13 +96,17 @@ public class RegistrationController implements Initializable
         String phoneNo = customerPhoneNumberTextField.getText();
         try
         {
-            // Get the customer ID
+            // Disable the paymentButton
+            paymentButton.setDisable(true);
+            // Get the customer ID and name
+            String query = "select fld_customer_id, fld_customer_name from tbl_customers where fld_customer_phone_number = '";
+            ArrayList<String> temp = DB.returns(query + phoneNo + "'");
+            // Set the customer ID and name
+            selectedCustomerID = Integer.parseInt(temp.get(0).split("_")[0]);
+            selectedCustomerName = temp.get(0).split("_")[1];
             // At this point, the customer has already been selected
-            String query = "select fld_customer_id from tbl_customers where fld_customer_phone_number = '";
-            selectedCustomerID = Integer.parseInt(
-                    DB.returns(query + phoneNo + "'").get(0));
             // Set the text of the customerSelectionConfirmationText
-            customerSelectionConfirmationText.setText("Customer selected");
+            customerSelectionConfirmationText.setText(String.format("Customer %s selected.", selectedCustomerName));
             setCustomerDetailsListView(phoneNo);
             setCustomerPetsListView();
             // Enable the selectPetButton and addPetButton
@@ -105,6 +115,7 @@ public class RegistrationController implements Initializable
         // If the customer does not exist, display an error message on both the customerDetailsListView and the customerPetsListView
         catch (Exception e)
         {
+            System.out.println(e.getMessage());
             addPetButton.setDisable(true);
             customerDetailsListView.getItems().clear();
             customerPetsListView.getItems().clear();

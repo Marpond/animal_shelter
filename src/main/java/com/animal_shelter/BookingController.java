@@ -22,6 +22,8 @@ public class BookingController implements Initializable
     @FXML
     private ListView<String> cageListView;
     @FXML
+    private ListView<String> servicesListView;
+    @FXML
     private ListView<String> datesListView;
     @FXML
     private Text cageText;
@@ -34,13 +36,20 @@ public class BookingController implements Initializable
     @FXML
     private Text totalDaysText;
     @FXML
+    private Text serviceText;
+    @FXML
     private Button selectStartButton;
     @FXML
     private Button selectEndButton;
     @FXML
     private Button proceedButton;
+    @FXML
+    private Button addServiceButton;
+    @FXML
+    private Button removeServiceButton;
 
     private String selectedDate;
+    private int selectedServiceID;
 
     public static String selectedStartDate;
     public static String selectedEndDate;
@@ -50,8 +59,11 @@ public class BookingController implements Initializable
     public static double totalPrice;
     public static int totalDays;
 
-    private final ArrayList<Long> epochDates = getDates(DATE_LIST_LENGTH);
-    private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static ArrayList<Integer> selectedServiceIDs = new ArrayList<>();
+
+    private final ArrayList<Long> EPOCH_DATES = getDates(DATE_LIST_LENGTH);
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private final ArrayList<String> SERVICE_NAMES = new ArrayList<>();
 
     /**
      * Initializes the controller class, this method is automatically called after the fxml file has been loaded
@@ -61,19 +73,31 @@ public class BookingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        // Reset static variables
+        selectedStartDate = "";
+        selectedEndDate = "";
+        selectedCageID = 0;
+        selectedCageSize = "";
+        selectedCagePrice = 0;
+        totalPrice = 0;
+        totalDays = 0;
+        selectedServiceIDs.clear();
         // Set the size values of the hash map
         SIZES.put(1, "Small");
         SIZES.put(2, "Medium");
         SIZES.put(3, "Large");
         // Set the listeners
-        setCageList();
+        setCageListView();
+        setServiceListView();
         setCageListListener();
         setDatesListListener();
-        setDateButtonListener();
+        setServiceListListener();
         // Disable the buttons
         proceedButton.setDisable(true);
         selectStartButton.setDisable(true);
         selectEndButton.setDisable(true);
+        addServiceButton.setDisable(true);
+        removeServiceButton.setDisable(true);
     }
 
     @FXML
@@ -94,7 +118,75 @@ public class BookingController implements Initializable
         System.out.println("Selected End Date: "    + selectedEndDate);
         System.out.println("Total Price: "          + totalPrice);
         System.out.println("Total Days: "           + totalDays);
+        System.out.println("Selected Service IDs: " + selectedServiceIDs);
 
+    }
+
+    @FXML
+    private void selectEndDate()
+    {
+        // Disable the cage list view
+        cageListView.setDisable(true);
+        // Set the end date
+        selectedEndDate = selectedDate;
+        // Set the end text
+        endText.setText(String.format("End date: %s", selectedEndDate));
+        // Parse the dates to epoch
+        long startEpoch = parseDateToEpoch(selectedStartDate);
+        long endEpoch = parseDateToEpoch(selectedEndDate);
+        // Calculate the total price
+        totalDays =(int) (endEpoch - startEpoch) / 86400 + 1;
+        totalPrice += totalDays * selectedCagePrice;
+        // Set the total days text
+        totalDaysText.setText(String.format("Days: %d", totalDays));
+        // Set the total price text
+        priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
+        // Enable the proceed button
+        proceedButton.setDisable(false);
+    }
+
+    @FXML
+    private void selectStartDate()
+    {
+        if (selectedDate != null)
+        {
+            // Disable the cage list view
+            cageListView.setDisable(true);
+            // Set the start date
+            selectedStartDate = selectedDate;
+            // Set the start text
+            startText.setText(String.format("Start date: %s", selectedStartDate));
+            // If the date is before the start date, remove it
+            datesListView.getItems().removeIf(s -> s.compareTo(selectedStartDate) < 0);
+        }
+    }
+
+    @FXML
+    private void selectService()
+    {
+        // Disable the add service button
+        addServiceButton.setDisable(true);
+        // If the selected service id is not in the list
+        if (!selectedServiceIDs.contains(selectedServiceID))
+        {
+            selectedServiceIDs.add(selectedServiceID);
+            // Enable the remove service button
+            removeServiceButton.setDisable(false);
+            // Get the price of the selected service
+            String query = "select fld_service_price from tbl_extra_services where fld_service_id = ";
+            double price = Double.parseDouble(DB.returns(query + selectedServiceID).get(0));
+            // Add the price to the total price
+            totalPrice += price;
+            // Set the service text
+            StringBuilder temp = new StringBuilder("Services:\n");
+            for (int i: selectedServiceIDs)
+            {
+                temp.append(SERVICE_NAMES.get(i-1)).append("\n");
+            }
+            serviceText.setText(temp.toString());
+            // Set the total price text
+            priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
+        }
     }
 
     /**
@@ -104,7 +196,7 @@ public class BookingController implements Initializable
      */
     private String formatEpochToDate(long epoch)
     {
-        return sdf.format(new Date(epoch * 1000));
+        return DATE_FORMAT.format(new Date(epoch * 1000));
     }
 
     /**
@@ -114,7 +206,7 @@ public class BookingController implements Initializable
      */
     private long parseDateToEpoch(String date)
     {
-        try {return sdf.parse(date).getTime() / 1000;}
+        try {return DATE_FORMAT.parse(date).getTime() / 1000;}
         catch (Exception e) {return 0;}
     }
 
@@ -133,8 +225,21 @@ public class BookingController implements Initializable
         return temp;
     }
 
+    private void setServiceListView()
+    {
+        // Get the services from the database
+        ArrayList<String> services = DB.returns("select * from tbl_extra_services");
+        // Add the services to the serviceListView
+        for (String s: services)
+        {
+            SERVICE_NAMES.add(s.split("_")[1]);
+            servicesListView.getItems().add(String.format("%s\tkr. %s",
+                                            s.split("_")[1], s.split("_")[2]));
+        }
+    }
+
     // Sets the values of the list view to the values of the database
-    private void setCageList()
+    private void setCageListView()
     {
         cageListView.getItems().clear();
         for (String s : DB.returns("select fld_Cage_ID from tbl_cages"))
@@ -148,38 +253,38 @@ public class BookingController implements Initializable
      * Sets the values of the dates list view according to the selected cage
      * @param cageID The ID of the cage
      */
-    private void setDatesList(int cageID)
+    private void setDatesListView(int cageID)
     {
         datesListView.getItems().clear();
         // Adds the dates to the list view
-        for (long i:epochDates)
+        for (long i: EPOCH_DATES)
         {
             // Convert the epoch date to a readable date and add it to the list view
             datesListView.getItems().add(formatEpochToDate(i));
         }
         // Remove booked dates
-        String query = "select fld_booking_start, fld_booking_en from tbl_bookings where fld_Cage_id = ";
+        String query = "select fld_booking_start, fld_booking_end from tbl_bookings where fld_Cage_id = ";
         for (String s:DB.returns(query + cageID))
         {
             int startIndex;
             int endIndex;
             // Get the index of the start date
-            for (startIndex = 0; startIndex < epochDates.size(); startIndex++)
+            for (startIndex = 0; startIndex < EPOCH_DATES.size(); startIndex++)
             {
                 // If the formatted epoch is equal to the selected start date, break
-                if (formatEpochToDate(epochDates.get(startIndex)).equals(s.split(DB.getDELIMITER())[0])) {break;}
+                if (formatEpochToDate(EPOCH_DATES.get(startIndex)).equals(s.split(DB.getDELIMITER())[0])) {break;}
             }
             // Get the index of the end date
-            for (endIndex = 0; endIndex < epochDates.size(); endIndex++)
+            for (endIndex = 0; endIndex < EPOCH_DATES.size(); endIndex++)
             {
                 // If the formatted epoch is equal to the selected end date, break
-                if (formatEpochToDate(epochDates.get(endIndex)).equals(s.split(DB.getDELIMITER())[1])) {break;}
+                if (formatEpochToDate(EPOCH_DATES.get(endIndex)).equals(s.split(DB.getDELIMITER())[1])) {break;}
             }
             // Remove the dates between the start and end date
             for (int i = startIndex; i <= endIndex; i++)
             {
                 // Remove the date from the list view
-                try {datesListView.getItems().remove(formatEpochToDate(epochDates.get(i)));}
+                try {datesListView.getItems().remove(formatEpochToDate(EPOCH_DATES.get(i)));}
                 // If the date is not in the list view, do nothing
                 catch (Exception ignored) {}
             }
@@ -194,9 +299,9 @@ public class BookingController implements Initializable
             if (newValue != null)
             {
                 // Get the cage ID
-                selectedCageID = Integer.parseInt(newValue.split(" ")[2]);
+                selectedCageID = cageListView.getSelectionModel().getSelectedIndex() + 1;
                 // Set the dates list view with the selected cage ID
-                setDatesList(selectedCageID);
+                setDatesListView(selectedCageID);
                 // Get the cage price
                 String query = "select fld_cage_price_per_day from tbl_cages where fld_cage_id = ";
                 selectedCagePrice = Double.parseDouble(DB.returns(query + selectedCageID).get(0));
@@ -226,52 +331,20 @@ public class BookingController implements Initializable
             selectStartButton.setDisable(newValue == null);
             selectEndButton.setDisable(newValue == null);
             // If a date is selected, set the selected date
-            if (newValue != null) {selectedDate = newValue;}
+            if (newValue != null) selectedDate = newValue;
         });
     }
 
-    // Sets the listener for the start date buttons
-    private void setDateButtonListener()
+    // Sets the listener for the service list view
+    private void setServiceListListener()
     {
-        // Set the listener for the start date button
-        selectStartButton.setOnAction(event ->
+        servicesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
-            if (selectedDate != null)
-            {
-                // Disable the cage list view
-                cageListView.setDisable(true);
-                // Set the start date
-                selectedStartDate = selectedDate;
-                // Set the start text
-                startText.setText(String.format("Start date: %s", selectedStartDate));
-                // If the date is before the start date, remove it
-                datesListView.getItems().removeIf(s -> s.compareTo(selectedStartDate) < 0);
-            }
-        });
-        // Set the listener for the end date button
-        selectEndButton.setOnAction(event ->
-        {
-            if (selectedDate != null)
-            {
-                // Disable the cage list view
-                cageListView.setDisable(true);
-                // Set the end date
-                selectedEndDate = selectedDate;
-                // Set the end text
-                endText.setText(String.format("End date: %s", selectedEndDate));
-                // Parse the dates to epoch
-                long startEpoch = parseDateToEpoch(selectedStartDate);
-                long endEpoch = parseDateToEpoch(selectedEndDate);
-                // Calculate the total price
-                totalDays =(int) (endEpoch - startEpoch) / 86400 + 1;
-                totalPrice = totalDays * selectedCagePrice;
-                // Set the total days text
-                totalDaysText.setText(String.format("Days: %d", totalDays));
-                // Set the total price text
-                priceText.setText(String.format("Total price: %.2f", totalPrice));
-                // Enable the proceed button
-                proceedButton.setDisable(false);
-            }
+            // Get the selected service ID
+            selectedServiceID = servicesListView.getSelectionModel().getSelectedIndex()+1;
+            // Enable the add service button
+            addServiceButton.setDisable(selectedServiceIDs.contains(selectedServiceID));
+            removeServiceButton.setDisable(!selectedServiceIDs.contains(selectedServiceID));
         });
     }
 }
