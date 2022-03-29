@@ -4,63 +4,57 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.BookingController">
-   <children>
-      <BorderPane layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
-         <center>
-            <ListView fx:id="cageListView" prefHeight="454.0" prefWidth="170.0" />
-         </center>
-         <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available cages" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
-      <BorderPane layoutX="220.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
-         <center>
-            <ListView fx:id="datesListView" prefHeight="349.0" prefWidth="204.0" BorderPane.alignment="CENTER" />
-         </center>
-         <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available booking dates" BorderPane.alignment="CENTER" />
-         </top>
-         <bottom>
-            <HBox BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="selectStartButton" mnemonicParsing="false" onAction="#selectStartDate" prefHeight="26.0" prefWidth="99.0" text="Select start" />
-                  <Button fx:id="selectEndButton" mnemonicParsing="false" onAction="#selectEndDate" prefHeight="26.0" prefWidth="98.0" text="Select end" />
-               </children>
-            </HBox>
-         </bottom>
-      </BorderPane>
-      <BorderPane layoutX="416.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
-         <center>
-            <ListView fx:id="servicesListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </center>
-         <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available extra services" BorderPane.alignment="CENTER" />
-         </top>
-         <bottom>
-            <HBox prefHeight="0.0" prefWidth="170.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="addServiceButton" mnemonicParsing="false" onAction="#selectService" prefHeight="26.0" prefWidth="130.0" text="Add" />
-                  <Button fx:id="removeServiceButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="130.0" text="Remove" />
-               </children>
-            </HBox>
-         </bottom>
-      </BorderPane>
-      <HBox layoutX="204.0" layoutY="254.0">
-         <children>
-            <Text fx:id="startText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="100.0" />
-            <Text fx:id="endText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="102.0" />
-         </children>
-      </HBox>
-      <Text fx:id="cageText" layoutX="14.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="170.0" />
-      <VBox layoutX="230.0" layoutY="306.0" prefHeight="36.0" prefWidth="150.0">
-         <children>
-            <Text fx:id="totalDaysText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.13000106811523" />
-            <Text fx:id="priceText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.13000106811523" />
-         </children>
-      </VBox>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#resetBooking" text="Reset" />
-      <Button fx:id="proceedButton" layoutX="271.0" layoutY="356.0" mnemonicParsing="false" onAction="#switchToRegistration" text="Proceed" />
-      <Text fx:id="serviceText" layoutX="433.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="137.0" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.BookingController">
+   <BorderPane layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
+      <center>
+         <ListView fx:id="cageListView" prefHeight="454.0" prefWidth="170.0"/>
+      </center>
+      <top>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available cages" BorderPane.alignment="CENTER"/>
+      </top>
+   </BorderPane>
+   <BorderPane layoutX="220.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
+      <center>
+         <ListView fx:id="datesListView" prefHeight="349.0" prefWidth="204.0" BorderPane.alignment="CENTER"/>
+      </center>
+      <top>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available booking dates" BorderPane.alignment="CENTER"/>
+      </top>
+      <bottom>
+         <HBox BorderPane.alignment="CENTER">
+            <Button fx:id="selectStartButton" mnemonicParsing="false" onAction="#selectStartDate" prefHeight="26.0" prefWidth="99.0"
+                    text="Select start"/>
+            <Button fx:id="selectEndButton" mnemonicParsing="false" onAction="#selectEndDate" prefHeight="26.0" prefWidth="98.0"
+                    text="Select end"/>
+         </HBox>
+      </bottom>
+   </BorderPane>
+   <BorderPane layoutX="416.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0">
+      <center>
+         <ListView fx:id="servicesListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+      </center>
+      <top>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available extra services" BorderPane.alignment="CENTER"/>
+      </top>
+      <bottom>
+         <HBox prefHeight="0.0" prefWidth="170.0" BorderPane.alignment="CENTER">
+            <Button fx:id="addServiceButton" mnemonicParsing="false" onAction="#selectService" prefHeight="26.0" prefWidth="130.0"
+                    text="Add"/>
+            <Button fx:id="removeServiceButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="130.0" text="Remove"/>
+         </HBox>
+      </bottom>
+   </BorderPane>
+   <HBox layoutX="204.0" layoutY="254.0">
+      <Text fx:id="startText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="100.0"/>
+      <Text fx:id="endText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="102.0"/>
+   </HBox>
+   <Text fx:id="cageText" layoutX="14.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="170.0"/>
+   <VBox layoutX="230.0" layoutY="306.0" prefHeight="36.0" prefWidth="150.0">
+      <Text fx:id="totalDaysText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.13000106811523"/>
+      <Text fx:id="priceText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.13000106811523"/>
+   </VBox>
+   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#resetBooking" text="Reset"/>
+   <Button fx:id="proceedButton" layoutX="271.0" layoutY="356.0" mnemonicParsing="false" onAction="#switchToRegistration" text="Proceed"/>
+   <Text fx:id="serviceText" layoutX="433.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="137.0"/>
 </AnchorPane>

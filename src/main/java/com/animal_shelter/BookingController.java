@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// TODO: remove service
 public class BookingController implements Initializable
 {
     private final int DATE_LIST_LENGTH = 56;
@@ -123,6 +124,24 @@ public class BookingController implements Initializable
     }
 
     @FXML
+    private void selectStartDate()
+    {
+        if (selectedDate != null)
+        {
+            // Disable the cage list view
+            cageListView.setDisable(true);
+            // Enable the select end button
+            selectEndButton.setDisable(false);
+            // Set the start date
+            selectedStartDate = selectedDate;
+            // Set the start text
+            startText.setText(String.format("Start date: %s", selectedStartDate));
+            // If the date is before the start date, remove it
+            datesListView.getItems().removeIf(s -> s.compareTo(selectedStartDate) < 0);
+        }
+    }
+
+    @FXML
     private void selectEndDate()
     {
         // Disable the cage list view
@@ -143,22 +162,9 @@ public class BookingController implements Initializable
         priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
         // Enable the proceed button
         proceedButton.setDisable(false);
-    }
-
-    @FXML
-    private void selectStartDate()
-    {
-        if (selectedDate != null)
-        {
-            // Disable the cage list view
-            cageListView.setDisable(true);
-            // Set the start date
-            selectedStartDate = selectedDate;
-            // Set the start text
-            startText.setText(String.format("Start date: %s", selectedStartDate));
-            // If the date is before the start date, remove it
-            datesListView.getItems().removeIf(s -> s.compareTo(selectedStartDate) < 0);
-        }
+        // Disable the select start button and select end button
+        selectStartButton.setDisable(true);
+        selectEndButton.setDisable(true);
     }
 
     @FXML
@@ -329,7 +335,6 @@ public class BookingController implements Initializable
             // If a date is selected, enable the start button and the end button
             // Otherwise disable them
             selectStartButton.setDisable(newValue == null);
-            selectEndButton.setDisable(newValue == null);
             // If a date is selected, set the selected date
             if (newValue != null) selectedDate = newValue;
         });
