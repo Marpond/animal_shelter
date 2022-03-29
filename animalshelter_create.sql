@@ -21,6 +21,7 @@ create table tbl_Animals
 (
     fld_Animal_ID int identity primary key,
     fld_Customer_ID int foreign key references tbl_Customers,
+    fld_Animal_Name nvarchar(30),
     fld_Animal_Species nvarchar(15),
     fld_Animal_Description nvarchar(max)
 )go
@@ -64,17 +65,17 @@ begin
 end
 go
 -- Create a procedure to insert a new booking
-create procedure insert_booking (@customer_id int, @cage_id int, @animal_id int, @booking_start date, @booking_end date) as
-    insert into tbl_Bookings (fld_customer_id, fld_cage_id, fld_animal_id, fld_booking_start, fld_booking_end)
-    values (@customer_id, @cage_id, @animal_id, @booking_start, @booking_end)
+create procedure insert_booking (@customer_id int, @animal_id int, @cage_id int, @booking_start date, @booking_end date) as
+    insert into tbl_Bookings (fld_customer_id, fld_animal_id, fld_cage_id, fld_booking_start, fld_booking_end)
+    values (@customer_id, @animal_id, @cage_id, @booking_start, @booking_end)
 go
 -- Create a procedure to insert a new customer
-create procedure insert_customer (@customer_name nvarchar(30), @customer_phone_number int, @customer_address nvarchar(max)) as
+create procedure insert_customer (@customer_name nvarchar(30), @customer_phone_number nvarchar(12), @customer_address nvarchar(max)) as
     insert into tbl_Customers (fld_customer_name, fld_customer_phone_number, fld_customer_address)
     values (@customer_name, @customer_phone_number, @customer_address)
 go
 -- Create a procedure to insert a new animal
-create procedure insert_animal (@customer_id int, @animal_species nvarchar(15), @animal_description nvarchar(max)) as
-    insert into tbl_Animals (fld_customer_id, fld_animal_species, fld_animal_description)
-    values (@customer_id, @animal_species, @animal_description)
+create procedure insert_animal(@customer_id int, @animal_name nvarchar(30), @animal_species nvarchar(15), @animal_description nvarchar(max)) as
+    insert into tbl_Animals (fld_customer_id, fld_animal_name, fld_animal_species, fld_animal_description)
+    values (@customer_id, @animal_name, @animal_species, @animal_description)
 go

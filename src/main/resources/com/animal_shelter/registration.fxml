@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.RegistrationController">
-   <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToBooking" text="Back" />
+   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToBooking" text="Back" />
    <BorderPane layoutX="61.0" layoutY="50.0" prefHeight="266.0" prefWidth="200.0">
       <center>
          <ListView fx:id="customerDetailsListView" prefHeight="235.0" prefWidth="200.0" />
@@ -19,14 +19,13 @@
       </top>
       <bottom>
          <HBox prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button fx:id="selectCustomerButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="123.0" text="Select customer" />
-            <Button fx:id="addCustomerButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Add new" />
+            <Button fx:id="addCustomerButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="234.0" text="Add new" />
          </HBox>
       </bottom>
    </BorderPane>
    <HBox layoutX="61.0" layoutY="324.0">
       <TextField fx:id="customerPhoneNoTextField" prefHeight="26.0" prefWidth="135.0" promptText="Phone number" />
-      <Button fx:id="searchCustomerButton" mnemonicParsing="false" onAction="#searchCustomer" prefHeight="26.0" prefWidth="65.0" text="Search" />
+      <Button fx:id="searchCustomerButton" mnemonicParsing="false" onAction="#searchCustomerAndPet" prefHeight="26.0" prefWidth="65.0" text="Search" />
    </HBox>
    <BorderPane layoutX="344.0" layoutY="50.0" prefHeight="300.0" prefWidth="200.0">
       <center>

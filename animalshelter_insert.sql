@@ -1,18 +1,14 @@
 use AnimalShelter go
 -- Insert multiple rows into tbl_Customers
-insert into tbl_Customers (fld_Customer_Name, fld_Customer_Address, fld_Customer_Phone_Number)
-values ('Customer1', 'Address1', 'Phone1'),
-       ('Customer2', 'Address2', 'Phone2'),
-       ('Customer3', 'Address3', 'Phone3'),
-       ('Customer4', 'Address4', 'Phone4')
-go
+insert_customer 'Customer1', 'PhoneNumber1', 'Address1' go
+insert_customer 'Customer2', 'PhoneNumber2', 'Address2' go
+insert_customer 'Customer3', 'PhoneNumber3', 'Address3' go
+insert_customer 'Customer4', 'PhoneNumber4', 'Address4' go
 -- Insert multiple rows into tbl_Animals
-insert into tbl_Animals (fld_Customer_ID, fld_Animal_Species, fld_Animal_Description)
-values (1, 'Pet1', 'A friendly dog'),
-       (2, 'Pet2', 'Peace was never an option'),
-       (3, 'Pet3', 'Has no friends'),
-       (4, 'Pet4', 'Has friends')
-go
+insert_animal 1, 'Animal1', 'Type1', 'Description1' go
+insert_animal 2, 'Animal2', 'Type2', 'Description2' go
+insert_animal 3, 'Animal3', 'Type3', 'Description3' go
+insert_animal 4, 'Animal4', 'Type4', 'Description4' go
 -- Insert multiple rows into tbl_Cages
 insert into tbl_Cages (fld_Cage_Size, fld_Cage_Price_Per_Day)
 values (1, 10),
@@ -20,12 +16,10 @@ values (1, 10),
        (3, 30)
 go
 -- Insert multiple rows into tbl_Bookings
-insert into tbl_Bookings (fld_Customer_ID, fld_Animal_ID, fld_Cage_ID, fld_Booking_Start, fld_Booking_End)
-values (1, 1, 1,'2022-04-6','2022-04-12'),
-       (2, 2, 2,'2022-04-6','2022-04-12'),
-       (3, 3, 3,'2022-04-7','2022-04-15'),
-       (4, 4, 1,'2022-04-18','2022-04-24')
-go
+insert_booking 1,1,1,'2022-04-06','2022-04-08' go
+insert_booking 2,2,2,'2022-04-07','2022-04-22' go
+insert_booking 3,3,3,'2022-04-06','2022-04-08' go
+insert_booking 4,4,1,'2022-04-09','2022-04-12' go
 -- Insert multiple rows into tbl_Extra_Services
 insert into tbl_Extra_Services (fld_Service_Name, fld_Service_Price)
 values ('Special food', 100),
