@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.animal_shelter.RegistrationController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.RegistrationController">
    <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToBooking" text="Back" />
-   <BorderPane layoutX="61.0" layoutY="50.0" prefHeight="266.0" prefWidth="200.0">
+   <BorderPane layoutX="61.0" layoutY="50.0" prefHeight="266.0" prefWidth="230.0">
       <center>
          <ListView fx:id="customerDetailsListView" prefHeight="235.0" prefWidth="200.0" />
       </center>
@@ -20,20 +19,20 @@
          </HBox>
       </bottom>
    </BorderPane>
-   <HBox layoutX="61.0" layoutY="324.0">
-      <TextField fx:id="customerPhoneNumberTextField" prefHeight="26.0" prefWidth="135.0" promptText="Phone number" />
-      <Button fx:id="searchCustomerButton" mnemonicParsing="false" onAction="#searchCustomerAndPet" prefHeight="26.0" prefWidth="65.0" text="Search" />
+   <HBox layoutX="61.0" layoutY="324.0" prefHeight="26.0" prefWidth="230.0">
+      <TextField fx:id="customerPhoneNumberTextField" prefHeight="26.0" prefWidth="209.0" promptText="Phone number" />
+      <Button fx:id="searchCustomerButton" mnemonicParsing="false" onAction="#searchCustomerAndPet" prefHeight="26.0" prefWidth="102.0" text="Search" />
    </HBox>
-   <BorderPane layoutX="344.0" layoutY="50.0" prefHeight="300.0" prefWidth="200.0">
+   <BorderPane layoutX="314.0" layoutY="50.0" prefHeight="300.0" prefWidth="230.0">
       <center>
-         <ListView fx:id="customerPetsListView" prefHeight="247.0" prefWidth="200.0" />
+         <ListView fx:id="customerPetsListView" prefHeight="256.0" prefWidth="234.0" />
       </center>
       <top>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pets owned" BorderPane.alignment="CENTER" />
       </top>
       <bottom>
          <HBox prefHeight="20.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button fx:id="addPetButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="226.0" text="Add new pet" />
+            <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#addPet" prefHeight="26.0" prefWidth="282.0" text="Add new pet" />
          </HBox>
       </bottom>
    </BorderPane>

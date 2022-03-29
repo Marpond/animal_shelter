@@ -39,6 +39,7 @@ public class RegistrationController implements Initializable
         // Default values
         searchCustomerButton.setDisable(true);
         customerDetailsListView.setDisable(true);
+        addPetButton.setDisable(true);
         // Set the listeners for the customerPhoneNoTextField
         setCustomerPhoneNoTextFieldListener();
         setCustomerPetsListViewListener();
@@ -54,6 +55,12 @@ public class RegistrationController implements Initializable
     private void addCustomer()
     {
         SceneController.popup("addCustomer");
+    }
+
+    @FXML
+    private void addPet()
+    {
+        SceneController.popup("addPet");
     }
 
     // Sets the listener for the customerPetsListView
@@ -85,30 +92,13 @@ public class RegistrationController implements Initializable
         {
             // Get the customer ID
             // At this point, the customer has already been selected
+            String query = "select fld_customer_id from tbl_customers where fld_customer_phone_number = '";
             selectedCustomerID = Integer.parseInt(
-                    DB.returns("select fld_customer_id " +
-                                "from tbl_customers where fld_customer_phone_number = '" + phoneNo + "'").get(0));
+                    DB.returns(query + phoneNo + "'").get(0));
             // Set the text of the customerSelectionConfirmationText
             customerSelectionConfirmationText.setText("Customer selected");
-            // Get the details of the customer
-            ArrayList<String> selectedCustomerDetails =
-                    DB.returns("select fld_customer_name, fld_customer_phone_number, fld_customer_address" +
-                                " from tbl_customers where fld_customer_phone_number = '" + phoneNo + "'");
-            customerDetailsListView.getItems().clear();
-            // Add the details to the customerDetailsListView
-            for (String s:selectedCustomerDetails.get(0).split(DB.getDELIMITER()))
-            {
-                customerDetailsListView.getItems().add(s);
-            }
-            // Get the pets of the customer
-            ArrayList<String> selectedCustomerPets =
-                    DB.returns("select fld_animal_id,fld_animal_name,fld_animal_species,fld_animal_description " +
-                                "from tbl_animals where fld_customer_id =" + selectedCustomerID);
-            customerPetsListView.getItems().clear();
-            for (String s:selectedCustomerPets)
-            {
-                customerPetsListView.getItems().add(s.replace(DB.getDELIMITER(), " "));
-            }
+            setCustomerDetailsListView(phoneNo);
+            setCustomerPetsListView();
             // Enable the selectPetButton and addPetButton
             addPetButton.setDisable(false);
         }
@@ -123,10 +113,40 @@ public class RegistrationController implements Initializable
         }
     }
 
+    private void setCustomerPetsListView() {
+        // Get the pets of the customer
+        String query = "select fld_animal_id,fld_animal_name,fld_animal_species,fld_animal_description " +
+                        "from tbl_animals where fld_customer_id =";
+        ArrayList<String> selectedCustomerPets = DB.returns(query + selectedCustomerID);
+        customerPetsListView.getItems().clear();
+        // Add the pets to the customerPetsListView
+        for (String s:selectedCustomerPets)
+        {
+            customerPetsListView.getItems().add(s.replace(DB.getDELIMITER(), " "));
+        }
+    }
+
+    /**
+     * Sets the customer details list view
+     * @param phoneNo The phone number of the customer
+     */
+    private void setCustomerDetailsListView(String phoneNo) {
+        // Get the details of the customer
+        String query = "select fld_customer_name, fld_customer_phone_number, fld_customer_address" +
+                        " from tbl_customers where fld_customer_phone_number = '";
+        ArrayList<String> selectedCustomerDetails =
+                DB.returns(query + phoneNo + "'");
+        customerDetailsListView.getItems().clear();
+        // Add the details to the customerDetailsListView
+        for (String s:selectedCustomerDetails.get(0).split(DB.getDELIMITER()))
+        {
+            customerDetailsListView.getItems().add(s);
+        }
+    }
+
     // Sets the listener for the customerPhoneNoTextField
     private void setCustomerPhoneNoTextFieldListener()
     {
-
         // If the value of customerPhoneNoTextField is empty, disable the searchCustomerButton
         // Otherwise, enable it
         customerPhoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) ->

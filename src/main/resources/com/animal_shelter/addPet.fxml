@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="225.0" prefWidth="191.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.animal_shelter.AddPetController">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0">
+         <children>
+            <Text fx:id="addConfirmationText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="160.13000106811523" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="161.6599998474121" />
+            <TextField fx:id="nameTextField" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Species" textAlignment="CENTER" wrappingWidth="161.13000106811523" />
+            <TextField fx:id="speciesTextField" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="161.13000106811523" />
+            <TextField fx:id="descriptionTextField" />
+            <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#addPet" prefHeight="48.0" prefWidth="162.0" text="Add new pet" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

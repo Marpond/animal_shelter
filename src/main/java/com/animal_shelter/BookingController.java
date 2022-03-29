@@ -87,13 +87,13 @@ public class BookingController implements Initializable
     {
         SceneController.load("registration");
         // Print out the stuff for debugging
-        System.out.println("Selected Cage ID: " + selectedCageID);
-        System.out.println("Selected Cage Size: " + selectedCageSize);
-        System.out.println("Selected Cage Price: " + selectedCagePrice);
-        System.out.println("Selected Start Date: " + selectedStartDate);
-        System.out.println("Selected End Date: " + selectedEndDate);
-        System.out.println("Total Price: " + totalPrice);
-        System.out.println("Total Days: " + totalDays);
+        System.out.println("Selected Cage ID: "     + selectedCageID);
+        System.out.println("Selected Cage Size: "   + selectedCageSize);
+        System.out.println("Selected Cage Price: "  + selectedCagePrice);
+        System.out.println("Selected Start Date: "  + selectedStartDate);
+        System.out.println("Selected End Date: "    + selectedEndDate);
+        System.out.println("Total Price: "          + totalPrice);
+        System.out.println("Total Days: "           + totalDays);
 
     }
 
@@ -158,8 +158,8 @@ public class BookingController implements Initializable
             datesListView.getItems().add(formatEpochToDate(i));
         }
         // Remove booked dates
-        for (String s:DB.returns("select fld_booking_start, fld_booking_end " +
-                                "from tbl_bookings where fld_Cage_id = " + cageID))
+        String query = "select fld_booking_start, fld_booking_en from tbl_bookings where fld_Cage_id = ";
+        for (String s:DB.returns(query + cageID))
         {
             int startIndex;
             int endIndex;
@@ -198,9 +198,8 @@ public class BookingController implements Initializable
                 // Set the dates list view with the selected cage ID
                 setDatesList(selectedCageID);
                 // Get the cage price
-                selectedCagePrice = Double.parseDouble(
-                        DB.returns("select fld_cage_price_per_day " +
-                                    "from tbl_cages where fld_cage_id = " + selectedCageID).get(0));
+                String query = "select fld_cage_price_per_day from tbl_cages where fld_cage_id = ";
+                selectedCagePrice = Double.parseDouble(DB.returns(query + selectedCageID).get(0));
                 // Get the cage size
                 selectedCageSize = SIZES.get(Integer.parseInt(newValue.split(" ")[2]));
                 // Set the selected cage text

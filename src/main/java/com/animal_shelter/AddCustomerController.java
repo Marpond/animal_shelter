@@ -38,13 +38,14 @@ public class AddCustomerController implements Initializable
     private void addCustomer()
     {
         // Add customer to database
-        DB.executes(String.format("insert_customer '%s', '%s', '%s'", name, phoneNumber, address));
+        DB.executes(String.format("insert_customer '%s', '%s', '%s'",
+                                               name, phoneNumber, address));
         // Confirmation text
         addConfirmationText.setText("Customer added!");
     }
 
     // Set listeners for the text fields
-    // If any of the text fields are empty, the add customer button is disabled
+    // If any of the text fields are empty, or the thresholds are exceeded, disable the add button
     private void setListeners()
     {
         nameTextField.textProperty().addListener((observable, oldValue, newValue) ->
@@ -59,7 +60,7 @@ public class AddCustomerController implements Initializable
         });
         addressTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addCustomerButton.setDisable(newValue.length()==0 || areTextFieldsEmpty());
+            addCustomerButton.setDisable(areTextFieldsEmpty());
             address = newValue;
         });
     }
