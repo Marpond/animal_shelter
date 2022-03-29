@@ -1,7 +1,9 @@
 package com.animal_shelter;
 
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 public class Database
@@ -17,13 +19,15 @@ public class Database
     {
         try
         {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("src/main/resources/database.properties"));
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;" +
-                    "trustServerCertificate=true;" +
-                    "database=AnimalShelter;" +
-                    "user=sa;" +
-                    "password=@ne2Three");
+                    "jdbc:sqlserver://localhost:1433;"+
+                    "trustServerCertificate=true;"+
+                    "database="+properties.getProperty("database")+";"+
+                    "user="+properties.getProperty("username")+";"+
+                    "password="+properties.getProperty("password"));
         }
         catch (Exception e)
         {

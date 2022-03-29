@@ -4,6 +4,5 @@
     <file url="file://$PROJECT_DIR$/animalshelter_create.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/animalshelter_delete.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/animalshelter_insert.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/animal_shelter/animalshelter_clear.sql" dialect="TSQL" />
   </component>
 </project>
