@@ -37,6 +37,8 @@ public class RegistrationController implements Initializable
     {
         // Default values
         searchCustomerButton.setDisable(true);
+        selectPetButton.setDisable(true);
+        addPetButton.setDisable(true);
         // Set the listeners for the customerPhoneNoTextField
         setCustomerPhoneNoTextFieldListener();
     }
@@ -83,9 +85,15 @@ public class RegistrationController implements Initializable
             {
                 customerPetsListView.getItems().add(s);
             }
+            // Enable the selectPetButton and addPetButton
+            selectPetButton.setDisable(false);
+            addPetButton.setDisable(false);
         }
         catch (Exception e)
         {
+            // Disable the selectPetButton and addPetButton
+            selectPetButton.setDisable(true);
+            addPetButton.setDisable(true);
             // Clear the customerDetailsListView
             customerDetailsListView.getItems().clear();
             // Clear the customerPetsListView
@@ -95,7 +103,6 @@ public class RegistrationController implements Initializable
             // Display an error message on the customerPetsListView
             customerPetsListView.getItems().add("No pets found");
         }
-
     }
 
     // Sets the listener for the customerPhoneNoTextField
