@@ -109,9 +109,9 @@ public class BookingController implements Initializable
     private void setCageList()
     {
         cageListView.getItems().clear();
-        for (String s : DB.returns("select * from tbl_cages"))
+        for (String s : DB.returns("select fld_Cage_ID from tbl_cages"))
         {
-            cageListView.getItems().add(String.format("Cage no. %s", s.split(" ")[0]));
+            cageListView.getItems().add(String.format("Cage no. %s", s));
         }
     }
 

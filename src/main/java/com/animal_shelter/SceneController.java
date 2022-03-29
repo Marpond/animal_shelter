@@ -23,6 +23,8 @@ public class SceneController
             Main.stage.setScene(new Scene(root));
             // Request focus so stuff works
             root.requestFocus();
+            // Set title
+            Main.stage.setTitle(fxmlName);
         }
         catch (IOException e){e.printStackTrace();}
     }

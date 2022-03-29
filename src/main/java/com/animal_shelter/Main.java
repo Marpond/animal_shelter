@@ -15,7 +15,7 @@ public class Main extends Application
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("booking.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = primaryStage;
-        stage.setTitle("Snake gam");
+        stage.setTitle("booking");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
