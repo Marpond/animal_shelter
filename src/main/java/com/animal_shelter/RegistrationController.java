@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 
-//TODO: Customer is already selected in searchCustomerAndPet, create an indicator for that
+//TODO: Customer is already selected in searchCustomerAndPet, create an indicator for that -also for the selected pet-
 // Needed functions: selectPet, addCustomer, addPet
+// Finishing touch: receipt.
 public class RegistrationController implements Initializable
 {
     private final Database DB = new Database();

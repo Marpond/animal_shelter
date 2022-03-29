@@ -32,6 +32,8 @@ public class BookingController implements Initializable
     @FXML
     private Text priceText;
     @FXML
+    private Text totalDaysText;
+    @FXML
     private Button selectStartButton;
     @FXML
     private Button selectEndButton;
@@ -39,14 +41,14 @@ public class BookingController implements Initializable
     private Button proceedButton;
 
     private String selectedDate;
-    private String selectedStartDate;
-    private String selectedEndDate;
 
-    private int selectedCageID;
-    private String selectedCageSize;
-    private double selectedCagePrice;
-
-    private double totalPrice;
+    public static String selectedStartDate;
+    public static String selectedEndDate;
+    public static int selectedCageID;
+    public static String selectedCageSize;
+    public static double selectedCagePrice;
+    public static double totalPrice;
+    public static int totalDays;
 
     private final ArrayList<Long> epochDates = getDates(DATE_LIST_LENGTH);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -63,8 +65,10 @@ public class BookingController implements Initializable
         setCageListListener();
         setDatesListListener();
         setDateButtonListener();
-        // Disable proceed button
+        // Disable the buttons
         proceedButton.setDisable(true);
+        selectStartButton.setDisable(true);
+        selectEndButton.setDisable(true);
     }
 
     @FXML
@@ -76,6 +80,15 @@ public class BookingController implements Initializable
     private void switchToRegistration()
     {
         SceneController.switchTo("registration");
+        // Print out the stuff for debugging
+        System.out.println("Selected Cage ID: " + selectedCageID);
+        System.out.println("Selected Cage Size: " + selectedCageSize);
+        System.out.println("Selected Cage Price: " + selectedCagePrice);
+        System.out.println("Selected Start Date: " + selectedStartDate);
+        System.out.println("Selected End Date: " + selectedEndDate);
+        System.out.println("Total Price: " + totalPrice);
+        System.out.println("Total Days: " + totalDays);
+
     }
 
     // Formats an epoch long to a date string with the format yyyy-MM-dd
@@ -161,10 +174,6 @@ public class BookingController implements Initializable
         {
             if (newValue != null)
             {
-                // Enable start button
-                selectStartButton.setDisable(false);
-                // Disable end button
-                selectEndButton.setDisable(true);
                 // Get the cage ID
                 selectedCageID = Integer.parseInt(newValue.split(" ")[2]);
                 // Set the dates list view with the selected cage ID
@@ -193,6 +202,10 @@ public class BookingController implements Initializable
     {
         datesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
+            // If a date is selected, enable the start button and the end button
+            // Otherwise disable them
+            selectStartButton.setDisable(newValue == null);
+            selectEndButton.setDisable(newValue == null);
             if (newValue != null)
             {
                 selectedDate = newValue;
@@ -208,12 +221,10 @@ public class BookingController implements Initializable
         {
             if (selectedDate != null)
             {
+                // Disable the cage list view
+                cageListView.setDisable(true);
                 // Set the start date
                 selectedStartDate = selectedDate;
-                // Disable the button
-                selectStartButton.setDisable(true);
-                // Enable the end button
-                selectEndButton.setDisable(false);
                 // Set the start text
                 startText.setText(String.format("Start date: %s", selectedStartDate));
                 // If the date is before the start date, remove it
@@ -225,17 +236,20 @@ public class BookingController implements Initializable
         {
             if (selectedDate != null)
             {
+                // Disable the cage list view
+                cageListView.setDisable(true);
                 // Set the end date
                 selectedEndDate = selectedDate;
-                // Disable the button
-                selectEndButton.setDisable(true);
                 // Set the end text
                 endText.setText(String.format("End date: %s", selectedEndDate));
                 // Parse the dates to epoch
                 long startEpoch = parseDateToEpoch(selectedStartDate);
                 long endEpoch = parseDateToEpoch(selectedEndDate);
                 // Calculate the total price
-                totalPrice = ((endEpoch - startEpoch) / 86400 +1)* selectedCagePrice;
+                totalDays =(int) (endEpoch - startEpoch) / 86400 + 1;
+                totalPrice = totalDays * selectedCagePrice;
+                // Set the total days text
+                totalDaysText.setText(String.format("Days: %d", totalDays));
                 // Set the total price text
                 priceText.setText(String.format("Total price: %.2f", totalPrice));
                 // Enable the proceed button
