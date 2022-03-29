@@ -54,7 +54,7 @@ public class AddCustomerController implements Initializable
         });
         phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addCustomerButton.setDisable(newValue.length()>12 || areTextFieldsEmpty());
+            addCustomerButton.setDisable(newValue.length()>20 || areTextFieldsEmpty());
             phoneNumber = newValue;
         });
         addressTextField.textProperty().addListener((observable, oldValue, newValue) ->

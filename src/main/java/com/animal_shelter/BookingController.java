@@ -117,6 +117,7 @@ public class BookingController implements Initializable
         try {return sdf.parse(date).getTime() / 1000;}
         catch (Exception e) {return 0;}
     }
+
     /**
      * Creates an arraylist of epoch seconds, each element represents a day in the future since today
      * @param length The length of the arraylist
@@ -166,13 +167,13 @@ public class BookingController implements Initializable
             for (startIndex = 0; startIndex < epochDates.size(); startIndex++)
             {
                 // If the formatted epoch is equal to the selected start date, break
-                if (formatEpochToDate(epochDates.get(startIndex)).equals(s.split(" ")[0])) {break;}
+                if (formatEpochToDate(epochDates.get(startIndex)).equals(s.split(DB.getDELIMITER())[0])) {break;}
             }
             // Get the index of the end date
             for (endIndex = 0; endIndex < epochDates.size(); endIndex++)
             {
                 // If the formatted epoch is equal to the selected end date, break
-                if (formatEpochToDate(epochDates.get(endIndex)).equals(s.split(" ")[1])) {break;}
+                if (formatEpochToDate(epochDates.get(endIndex)).equals(s.split(DB.getDELIMITER())[1])) {break;}
             }
             // Remove the dates between the start and end date
             for (int i = startIndex; i <= endIndex; i++)

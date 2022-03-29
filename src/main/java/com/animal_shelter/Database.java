@@ -8,6 +8,13 @@ import java.util.Properties;
 
 public class Database
 {
+    private final String DELIMITER = "_";
+
+    public String getDELIMITER()
+    {
+        return DELIMITER;
+    }
+
     Connection connection;
     PreparedStatement preparedStatement;
     ResultSet resultSet;
@@ -74,7 +81,7 @@ public class Database
                 {
                     row.add(String.valueOf(resultSet.getObject(i)));
                 }
-                list.add(String.join(" ",row));
+                list.add(String.join(DELIMITER,row));
             }
         }
         catch (Exception e)

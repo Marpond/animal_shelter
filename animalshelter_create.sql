@@ -8,7 +8,7 @@ create table tbl_Customers
 (
     fld_Customer_ID int identity primary key,
     fld_Customer_Name nvarchar(30),
-    fld_Customer_Phone_Number nvarchar(12),
+    fld_Customer_Phone_Number nvarchar(20),
     fld_Customer_Address nvarchar(max)
 )go
 create table tbl_Cages
@@ -70,7 +70,7 @@ create procedure insert_booking (@customer_id int, @animal_id int, @cage_id int,
     values (@customer_id, @animal_id, @cage_id, @booking_start, @booking_end)
 go
 -- Create a procedure to insert a new customer
-create procedure insert_customer (@customer_name nvarchar(30), @customer_phone_number nvarchar(12), @customer_address nvarchar(max)) as
+create procedure insert_customer (@customer_name nvarchar(30), @customer_phone_number nvarchar(20), @customer_address nvarchar(max)) as
     insert into tbl_Customers (fld_customer_name, fld_customer_phone_number, fld_customer_address)
     values (@customer_name, @customer_phone_number, @customer_address)
 go

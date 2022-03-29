@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class RegistrationController implements Initializable
                                 " from tbl_customers where fld_customer_phone_number = '" + phoneNo + "'");
             customerDetailsListView.getItems().clear();
             // Add the details to the customerDetailsListView
-            for (String s:selectedCustomerDetails.get(0).split(" "))
+            for (String s:selectedCustomerDetails.get(0).split(DB.getDELIMITER()))
             {
                 customerDetailsListView.getItems().add(s);
             }
@@ -109,7 +108,7 @@ public class RegistrationController implements Initializable
             customerPetsListView.getItems().clear();
             for (String s:selectedCustomerPets)
             {
-                customerPetsListView.getItems().add(s);
+                customerPetsListView.getItems().add(s.replace(DB.getDELIMITER(), " "));
             }
             // Enable the selectPetButton and addPetButton
             addPetButton.setDisable(false);
