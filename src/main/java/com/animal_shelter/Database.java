@@ -30,7 +30,7 @@ public class Database
         {
             // Load the properties file
             Properties properties = new Properties();
-            properties.load(new FileInputStream("src/main/resources/database.properties"));
+            properties.load(new FileInputStream("src/main/resources/com/animal_shelter/database.properties"));
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Connect to the database
             connection = DriverManager.getConnection(

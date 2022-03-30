@@ -15,13 +15,12 @@ public class ConfirmPaymentController implements Initializable
     @FXML
     private TextArea summarizeTextArea;
     @FXML
-    private Button payButton;
-    @FXML
     private final ArrayList<String> BOOKING_DETAILS = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        summarizeTextArea.setEditable(false);
         // Add every public static method to the ArrayList
         BOOKING_DETAILS.add("Customer name: "+  RegistrationController.selectedCustomerName);
         BOOKING_DETAILS.add("Customer ID: "+    RegistrationController.selectedCustomerID);

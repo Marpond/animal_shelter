@@ -4,18 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="225.0" prefWidth="191.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.animal_shelter.AddCustomerController">
-   <VBox layoutX="14.0" layoutY="14.0">
-      <Text fx:id="addConfirmationText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER"
-            wrappingWidth="160.13000106811523"/>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="161.6599998474121"/>
-      <TextField fx:id="nameTextField"/>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number" textAlignment="CENTER" wrappingWidth="161.13000106811523"/>
-      <TextField fx:id="phoneNumberTextField"/>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" textAlignment="CENTER" wrappingWidth="161.13000106811523"/>
-      <TextField fx:id="addressTextField"/>
-      <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomer" prefHeight="48.0" prefWidth="162.0"
-              text="Add new customer"/>
+<AnchorPane prefHeight="200.0" prefWidth="190.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.AddCustomerController">
+   <VBox layoutX="14.0" layoutY="-10.0" prefHeight="221.0" prefWidth="162.0">
+      <Text fx:id="addConfirmationText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="160.13000106811523" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="161.6599998474121" />
+      <TextField fx:id="nameTextField" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number" textAlignment="CENTER" wrappingWidth="161.13000106811523" />
+      <TextField fx:id="phoneNumberTextField" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" textAlignment="CENTER" wrappingWidth="161.13000106811523" />
+      <TextField fx:id="addressTextField" />
+      <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomer" prefHeight="48.0" prefWidth="162.0" text="Add new customer" />
    </VBox>
 </AnchorPane>
