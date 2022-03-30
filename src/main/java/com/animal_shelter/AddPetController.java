@@ -52,17 +52,17 @@ public class AddPetController implements Initializable
     {
         nameTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addPetButton.setDisable(newValue.length()>30 || areTextFieldsEmpty());
+            addPetButton.setDisable(newValue.length()>30 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             name = newValue;
         });
         speciesTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addPetButton.setDisable(newValue.length()>15 || areTextFieldsEmpty());
+            addPetButton.setDisable(newValue.length()>15 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             species = newValue;
         });
         descriptionTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addPetButton.setDisable(areTextFieldsEmpty());
+            addPetButton.setDisable(areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             description = newValue;
         });
     }

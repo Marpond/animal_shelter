@@ -9,8 +9,6 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-//TODO:
-// Needed functions: addPet, receipt.
 public class RegistrationController implements Initializable
 {
     private final Database DB = new Database();
@@ -169,5 +167,10 @@ public class RegistrationController implements Initializable
         // Otherwise, enable it
         customerPhoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 searchCustomerButton.setDisable(newValue.trim().isEmpty()));
+    }
+
+    public static boolean checkForIllegalCharacters(String s)
+    {
+        return s.contains("_") || s.contains(",");
     }
 }

@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-// TODO: remove service
 public class BookingController implements Initializable
 {
     private final int DATE_LIST_LENGTH = 56;
@@ -172,28 +171,51 @@ public class BookingController implements Initializable
     {
         // Disable the add service button
         addServiceButton.setDisable(true);
-        // If the selected service id is not in the list
-        if (!selectedServiceIDs.contains(selectedServiceID))
+        // Enable the remove service button
+        removeServiceButton.setDisable(false);
+        // Add the selected service to the list
+        selectedServiceIDs.add(selectedServiceID);
+        // Get the price of the selected service
+        String query = String.format("select fld_service_price from " +
+                                    "tbl_extra_services where fld_service_id = %d", selectedServiceID);
+        double price = Double.parseDouble(DB.returns(query).get(0));
+        // Add the price to the total price
+        totalPrice += price;
+        // Set the service text
+        StringBuilder temp = new StringBuilder("Services:\n");
+        for (int i: selectedServiceIDs)
         {
-            selectedServiceIDs.add(selectedServiceID);
-            // Enable the remove service button
-            removeServiceButton.setDisable(false);
-            // Get the price of the selected service
-            String query = String.format("select fld_service_price from " +
-                                        "tbl_extra_services where fld_service_id = %d", selectedServiceID);
-            double price = Double.parseDouble(DB.returns(query).get(0));
-            // Add the price to the total price
-            totalPrice += price;
-            // Set the service text
-            StringBuilder temp = new StringBuilder("Services:\n");
-            for (int i: selectedServiceIDs)
-            {
-                temp.append(SERVICE_NAMES.get(i-1)).append("\n");
-            }
-            serviceText.setText(temp.toString());
-            // Set the total price text
-            priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
+            temp.append(SERVICE_NAMES.get(i-1)).append("\n");
         }
+        serviceText.setText(temp.toString());
+        // Set the total price text
+        priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
+    }
+
+    @FXML
+    private void removeService()
+    {
+        // Disable the remove service button
+        removeServiceButton.setDisable(true);
+        // Enable the add service button
+        addServiceButton.setDisable(false);
+        // Remove the service from the list
+        selectedServiceIDs.remove((Integer) selectedServiceID);
+        // Get the price of the selected service
+        String query = String.format("select fld_service_price from " +
+                                    "tbl_extra_services where fld_service_id = %d", selectedServiceID);
+        double price = Double.parseDouble(DB.returns(query).get(0));
+        // Subtract the price from the total price
+        totalPrice -= price;
+        // Set the service text
+        StringBuilder temp = new StringBuilder("Services:\n");
+        for (int i: selectedServiceIDs)
+        {
+            temp.append(SERVICE_NAMES.get(i-1)).append("\n");
+        }
+        serviceText.setText(temp.toString());
+        // Set the total price text
+        priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
     }
 
     /**

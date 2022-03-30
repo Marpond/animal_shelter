@@ -50,17 +50,17 @@ public class AddCustomerController implements Initializable
     {
         nameTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addCustomerButton.setDisable(newValue.length()>30 || areTextFieldsEmpty());
+            addCustomerButton.setDisable(newValue.length()>30 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             name = newValue;
         });
         phoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addCustomerButton.setDisable(newValue.length()>20 || areTextFieldsEmpty());
+            addCustomerButton.setDisable(newValue.length()>20 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             phoneNumber = newValue;
         });
         addressTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addCustomerButton.setDisable(areTextFieldsEmpty());
+            addCustomerButton.setDisable(areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             address = newValue;
         });
     }

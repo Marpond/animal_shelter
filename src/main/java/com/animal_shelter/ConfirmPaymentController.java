@@ -9,9 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-// TODO:
-//          After clicking ok:
-//          Insert values into -> tbl_bookings, tbl_extra_service_links, tbl_payments
 public class ConfirmPaymentController implements Initializable
 {
     private Database DB = new Database();
