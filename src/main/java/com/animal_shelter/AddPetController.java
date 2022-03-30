@@ -37,6 +37,8 @@ public class AddPetController implements Initializable
     @FXML
     private void addPet()
     {
+        System.out.printf("insert_animal %d, '%s', '%s', '%s'\n",
+                RegistrationController.selectedCustomerID, name, species, description);
         // Add pet to database
         DB.executes(String.format("insert_animal %d, '%s', '%s', '%s'",
                 RegistrationController.selectedCustomerID, name, species, description));

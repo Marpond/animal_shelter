@@ -79,3 +79,13 @@ create procedure insert_animal(@customer_id int, @animal_name nvarchar(30), @ani
     insert into tbl_Animals (fld_customer_id, fld_animal_name, fld_animal_species, fld_animal_description)
     values (@customer_id, @animal_name, @animal_species, @animal_description)
 go
+-- Create a procedure to insert a new extra service link
+create procedure insert_extra_service_link(@booking_id int, @service_id int) as
+    insert into tbl_Extra_Service_Link (fld_booking_id, fld_service_id)
+    values (@booking_id, @service_id)
+go
+-- Create a procedure to insert a new payment
+create procedure insert_payment(@booking_id int, @payment_amount double precision) as
+    insert into tbl_Payments (fld_booking_id, fld_payment_amount)
+    values (@booking_id, @payment_amount)
+go

@@ -56,13 +56,18 @@ public class RegistrationController implements Initializable
     }
 
     @FXML
-    private void addCustomer()
+    private void popupConfirmPayment()
+    {
+        SceneController.popup("confirmPayment");
+    }
+    @FXML
+    private void popupAddCustomer()
     {
         SceneController.popup("addCustomer");
     }
 
     @FXML
-    private void addPet()
+    private void popupAddPet()
     {
         SceneController.popup("addPet");
     }
@@ -99,11 +104,13 @@ public class RegistrationController implements Initializable
             // Disable the paymentButton
             paymentButton.setDisable(true);
             // Get the customer ID and name
-            String query = "select fld_customer_id, fld_customer_name from tbl_customers where fld_customer_phone_number = '";
-            ArrayList<String> temp = DB.returns(query + phoneNo + "'");
+            String query = String.format("select fld_customer_id, fld_customer_name from " +
+                                        "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
+            System.out.println(query);
+            ArrayList<String> customerIDAndName = DB.returns(query);
             // Set the customer ID and name
-            selectedCustomerID = Integer.parseInt(temp.get(0).split("_")[0]);
-            selectedCustomerName = temp.get(0).split("_")[1];
+            selectedCustomerID = Integer.parseInt(customerIDAndName.get(0).split(DB.getDELIMITER())[0]);
+            selectedCustomerName = customerIDAndName.get(0).split(DB.getDELIMITER())[1];
             // At this point, the customer has already been selected
             // Set the text of the customerSelectionConfirmationText
             customerSelectionConfirmationText.setText(String.format("Customer %s selected.", selectedCustomerName));
@@ -126,9 +133,9 @@ public class RegistrationController implements Initializable
 
     private void setCustomerPetsListView() {
         // Get the pets of the customer
-        String query = "select fld_animal_id,fld_animal_name,fld_animal_species,fld_animal_description " +
-                        "from tbl_animals where fld_customer_id =";
-        ArrayList<String> selectedCustomerPets = DB.returns(query + selectedCustomerID);
+        String query = String.format("select fld_animal_id, fld_animal_name, fld_animal_species, fld_animal_description " +
+                                    "from tbl_animals where fld_customer_id = %d", selectedCustomerID);
+        ArrayList<String> selectedCustomerPets = DB.returns(query);
         customerPetsListView.getItems().clear();
         // Add the pets to the customerPetsListView
         for (String s:selectedCustomerPets)
@@ -143,10 +150,10 @@ public class RegistrationController implements Initializable
      */
     private void setCustomerDetailsListView(String phoneNo) {
         // Get the details of the customer
-        String query = "select fld_customer_name, fld_customer_phone_number, fld_customer_address" +
-                        " from tbl_customers where fld_customer_phone_number = '";
+        String query = String.format("select fld_customer_name, fld_customer_phone_number, fld_customer_address from " +
+                                    "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
         ArrayList<String> selectedCustomerDetails =
-                DB.returns(query + phoneNo + "'");
+                DB.returns(query);
         customerDetailsListView.getItems().clear();
         // Add the details to the customerDetailsListView
         for (String s:selectedCustomerDetails.get(0).split(DB.getDELIMITER()))

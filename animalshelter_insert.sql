@@ -26,9 +26,7 @@ values ('Special food', 100),
        ('Special care', 200)
 go
 -- Insert multiple rows into tbl_Extra_Service_Link
-insert into tbl_Extra_Service_Link (fld_Booking_ID, fld_Service_ID)
-values (1, 1),
-       (1, 2),
-       (2, 2),
-       (4, 1)
-go
+insert_extra_service_link 1,1 go
+insert_extra_service_link 1,2 go
+insert_extra_service_link 2,2 go
+insert_extra_service_link 4,1 go

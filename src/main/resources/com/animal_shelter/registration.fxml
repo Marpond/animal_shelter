@@ -15,7 +15,7 @@
       </top>
       <bottom>
          <HBox prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" onAction="#addCustomer" prefHeight="26.0" prefWidth="234.0" text="Add new customer" />
+            <Button mnemonicParsing="false" onAction="#popupAddCustomer" prefHeight="26.0" prefWidth="234.0" text="Add new customer" />
          </HBox>
       </bottom>
    </BorderPane>
@@ -32,11 +32,11 @@
       </top>
       <bottom>
          <HBox prefHeight="20.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#addPet" prefHeight="26.0" prefWidth="282.0" text="Add new pet" />
+            <Button fx:id="addPetButton" mnemonicParsing="false" onAction="#popupAddPet" prefHeight="26.0" prefWidth="282.0" text="Add new pet" />
          </HBox>
       </bottom>
    </BorderPane>
    <Text fx:id="customerSelectionConfirmationText" layoutX="67.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="217.13000106811523" />
    <Text fx:id="petSelectionConfirmationText" layoutX="341.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="176.13000106811523" />
-   <Button fx:id="paymentButton" layoutX="255.0" layoutY="360.0" mnemonicParsing="false" text="To payment" />
+   <Button fx:id="paymentButton" layoutX="255.0" layoutY="360.0" mnemonicParsing="false" onAction="#popupConfirmPayment" text="To payment" />
 </AnchorPane>

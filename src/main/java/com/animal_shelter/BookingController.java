@@ -179,8 +179,9 @@ public class BookingController implements Initializable
             // Enable the remove service button
             removeServiceButton.setDisable(false);
             // Get the price of the selected service
-            String query = "select fld_service_price from tbl_extra_services where fld_service_id = ";
-            double price = Double.parseDouble(DB.returns(query + selectedServiceID).get(0));
+            String query = String.format("select fld_service_price from " +
+                                        "tbl_extra_services where fld_service_id = %d", selectedServiceID);
+            double price = Double.parseDouble(DB.returns(query).get(0));
             // Add the price to the total price
             totalPrice += price;
             // Set the service text
@@ -238,9 +239,10 @@ public class BookingController implements Initializable
         // Add the services to the serviceListView
         for (String s: services)
         {
-            SERVICE_NAMES.add(s.split("_")[1]);
+            SERVICE_NAMES.add(s.split(DB.getDELIMITER())[1]);
             servicesListView.getItems().add(String.format("%s\tkr. %s",
-                                            s.split("_")[1], s.split("_")[2]));
+                                            s.split(DB.getDELIMITER())[1],
+                                            s.split(DB.getDELIMITER())[2]));
         }
     }
 
@@ -269,8 +271,9 @@ public class BookingController implements Initializable
             datesListView.getItems().add(formatEpochToDate(i));
         }
         // Remove booked dates
-        String query = "select fld_booking_start, fld_booking_end from tbl_bookings where fld_Cage_id = ";
-        for (String s:DB.returns(query + cageID))
+        String query = String.format("select fld_booking_start, fld_booking_end from " +
+                                    "tbl_bookings where fld_Cage_id = %d", cageID);
+        for (String s:DB.returns(query))
         {
             int startIndex;
             int endIndex;
@@ -309,8 +312,9 @@ public class BookingController implements Initializable
                 // Set the dates list view with the selected cage ID
                 setDatesListView(selectedCageID);
                 // Get the cage price
-                String query = "select fld_cage_price_per_day from tbl_cages where fld_cage_id = ";
-                selectedCagePrice = Double.parseDouble(DB.returns(query + selectedCageID).get(0));
+                String query = String.format("select fld_cage_price_per_day from " +
+                                            "tbl_cages where fld_cage_id = %d",selectedCageID);
+                selectedCagePrice = Double.parseDouble(DB.returns(query).get(0));
                 // Get the cage size
                 selectedCageSize = SIZES.get(Integer.parseInt(newValue.split(" ")[2]));
                 // Set the selected cage text
