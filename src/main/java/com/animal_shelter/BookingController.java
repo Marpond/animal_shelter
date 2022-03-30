@@ -50,6 +50,7 @@ public class BookingController implements Initializable
 
     private String selectedDate;
     private int selectedServiceID;
+    private double totalServicePrice = 0;
 
     public static String selectedStartDate;
     public static String selectedEndDate;
@@ -154,7 +155,7 @@ public class BookingController implements Initializable
         long endEpoch = parseDateToEpoch(selectedEndDate);
         // Calculate the total price
         totalDays =(int) (endEpoch - startEpoch) / 86400 + 1;
-        totalPrice += totalDays * selectedCagePrice;
+        totalPrice = totalDays * selectedCagePrice + totalServicePrice;
         // Set the total days text
         totalDaysText.setText(String.format("Days: %d", totalDays));
         // Set the total price text
@@ -178,9 +179,10 @@ public class BookingController implements Initializable
         // Get the price of the selected service
         String query = String.format("select fld_service_price from " +
                                     "tbl_extra_services where fld_service_id = %d", selectedServiceID);
-        double price = Double.parseDouble(DB.returns(query).get(0));
+        double currenServicePrice = Double.parseDouble(DB.returns(query).get(0));
+        totalServicePrice += currenServicePrice;
         // Add the price to the total price
-        totalPrice += price;
+        BookingController.totalPrice += currenServicePrice;
         // Set the service text
         StringBuilder temp = new StringBuilder("Services:\n");
         for (int i: selectedServiceIDs)
@@ -189,7 +191,7 @@ public class BookingController implements Initializable
         }
         serviceText.setText(temp.toString());
         // Set the total price text
-        priceText.setText(String.format("Total price\tkr. %.2f", totalPrice));
+        priceText.setText(String.format("Total price\tkr. %.2f", BookingController.totalPrice));
     }
 
     @FXML
@@ -204,9 +206,10 @@ public class BookingController implements Initializable
         // Get the price of the selected service
         String query = String.format("select fld_service_price from " +
                                     "tbl_extra_services where fld_service_id = %d", selectedServiceID);
-        double price = Double.parseDouble(DB.returns(query).get(0));
+        double currentServicePrice = Double.parseDouble(DB.returns(query).get(0));
+        totalServicePrice -= currentServicePrice;
         // Subtract the price from the total price
-        totalPrice -= price;
+        totalPrice -= currentServicePrice;
         // Set the service text
         StringBuilder temp = new StringBuilder("Services:\n");
         for (int i: selectedServiceIDs)
