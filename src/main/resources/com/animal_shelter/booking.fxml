@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.BookingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.animal_shelter.BookingController">
    <BorderPane layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="170.0" styleClass="border-pane">
       <center>
          <ListView fx:id="cageListView" prefHeight="454.0" prefWidth="170.0" />
@@ -47,7 +43,7 @@
       <Text fx:id="startText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="100.0" />
       <Text fx:id="endText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="102.0" />
    </HBox>
-   <Text fx:id="cageText" layoutX="14.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="170.0" />
+   <Text fx:id="cageText" layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="170.0" />
    <VBox layoutX="205.0" layoutY="301.0" prefHeight="42.0" prefWidth="191.0">
       <Text fx:id="totalDaysText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="190.13000106811523" />
       <Text fx:id="priceText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="190.13000106811523" />
