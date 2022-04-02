@@ -21,7 +21,7 @@ public class ConfirmPaymentController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         summarizeTextArea.setEditable(false);
-        // Add every public static method to the ArrayList
+        // Add every public static variable to the ArrayList
         BOOKING_DETAILS.add("Customer name: "+  RegistrationController.selectedCustomerName);
         BOOKING_DETAILS.add("Customer ID: "+    RegistrationController.selectedCustomerID);
         BOOKING_DETAILS.add("Pet ID: "+         RegistrationController.selectedPetID);
