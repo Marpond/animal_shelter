@@ -300,19 +300,15 @@ public class BookingController implements Initializable
                                     "tbl_bookings where fld_Cage_id = %d", cageID);
         for (String s:DB.returns(query))
         {
-            int startIndex;
-            int endIndex;
-            // Get the index of the start date
-            for (startIndex = 0; startIndex < EPOCH_DATES.size(); startIndex++)
+            // The initial value is -1 to prevent the first element from being
+            // removed in case the start and end date are before today
+            int startIndex = -1;
+            int endIndex = -1;
+            // Get the index of the start and end date
+            for (int i = 0; i < EPOCH_DATES.size(); i++)
             {
-                // If the formatted epoch is equal to the selected start date, break
-                if (formatEpochToDate(EPOCH_DATES.get(startIndex)).equals(s.split(DB.getDELIMITER())[0])) {break;}
-            }
-            // Get the index of the end date
-            for (endIndex = 0; endIndex < EPOCH_DATES.size(); endIndex++)
-            {
-                // If the formatted epoch is equal to the selected end date, break
-                if (formatEpochToDate(EPOCH_DATES.get(endIndex)).equals(s.split(DB.getDELIMITER())[1])) {break;}
+                if (formatEpochToDate(EPOCH_DATES.get(i)).equals(s.split(DB.getDELIMITER())[0])) {startIndex=i;}
+                if (formatEpochToDate(EPOCH_DATES.get(i)).equals(s.split(DB.getDELIMITER())[1])) {endIndex=i;}
             }
             // Remove the dates between the start and end date
             for (int i = startIndex; i <= endIndex; i++)
