@@ -9,8 +9,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddPetController implements Initializable
-{
+public class AddPetController implements Initializable {
     private final Database DB = new Database();
     @FXML
     private TextField nameTextField;
@@ -28,15 +27,13 @@ public class AddPetController implements Initializable
     private String description;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         addPetButton.setDisable(true);
         setListeners();
     }
 
     @FXML
-    private void addPet()
-    {
+    private void addPet() {
         System.out.printf("insert_animal %d, '%s', '%s', '%s'\n",
                 RegistrationController.selectedCustomerID, name, species, description);
         // Add pet to database
@@ -48,16 +45,15 @@ public class AddPetController implements Initializable
 
     // Set listeners for the text fields
     // If any of the text fields are empty, or the thresholds are exceeded, disable the add button
-    private void setListeners()
-    {
+    private void setListeners() {
         nameTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addPetButton.setDisable(newValue.length()>30 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
+            addPetButton.setDisable(newValue.length() > 30 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             name = newValue;
         });
         speciesTextField.textProperty().addListener((observable, oldValue, newValue) ->
         {
-            addPetButton.setDisable(newValue.length()>15 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
+            addPetButton.setDisable(newValue.length() > 15 || areTextFieldsEmpty() || RegistrationController.checkForIllegalCharacters(newValue));
             species = newValue;
         });
         descriptionTextField.textProperty().addListener((observable, oldValue, newValue) ->
@@ -68,10 +64,9 @@ public class AddPetController implements Initializable
     }
 
     // Check if any of the text fields are empty
-    private boolean areTextFieldsEmpty()
-    {
+    private boolean areTextFieldsEmpty() {
         return nameTextField.getText().isEmpty() ||
-               speciesTextField.getText().isEmpty() ||
-               descriptionTextField.getText().isEmpty();
+                speciesTextField.getText().isEmpty() ||
+                descriptionTextField.getText().isEmpty();
     }
 }

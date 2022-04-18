@@ -5,12 +5,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class Database
-{
+public class Database {
     private final String DELIMITER = "_";
 
-    public String getDELIMITER()
-    {
+    public String getDELIMITER() {
         return DELIMITER;
     }
 
@@ -19,76 +17,65 @@ public class Database
     ResultSet resultSet;
 
     // Constructor
-    public Database() {}
+    public Database() {
+    }
 
     /**
      * Connects to the database
      */
-    private void connect()
-    {
-        try
-        {
+    private void connect() {
+        try {
             // Load the properties file
             Properties properties = new Properties();
             properties.load(new FileInputStream("src/main/resources/com/animal_shelter/database.properties"));
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Connect to the database
             connection = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;"+
-                    "trustServerCertificate=true;"+
-                    "database="+properties.getProperty("database")+";"+
-                    "user="+properties.getProperty("username")+";"+
-                    "password="+properties.getProperty("password"));
+                    "jdbc:sqlserver://localhost:1433;" +
+                            "trustServerCertificate=true;" +
+                            "database=" + properties.getProperty("database") + ";" +
+                            "user=" + properties.getProperty("username") + ";" +
+                            "password=" + properties.getProperty("password"));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {e.printStackTrace();}
     }
 
     /**
      * Disconnects from the database
      */
-    private void disconnect()
-    {
-        try
-        {
-            if (resultSet != null)          resultSet.close();
-            if (preparedStatement != null)  preparedStatement.close();
-            if (connection != null)         connection.close();
-        }
-        catch (Exception e)
-        {
+    private void disconnect() {
+        try {
+            if (resultSet != null) resultSet.close();
+            if (preparedStatement != null) preparedStatement.close();
+            if (connection != null) connection.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Returns an ArrayList of Strings containing the values of each column in the resultSet
+     *
      * @param query SQL query
      * @return ArrayList of Strings
      */
-    public ArrayList<String> returns(String query)
-    {
+    public ArrayList<String> returns(String query) {
         ArrayList<String> list = new ArrayList<>();
         connect();
-        try
-        {
+        try {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 ArrayList<String> row = new ArrayList<>();
-                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++)
-                {
+                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                     row.add(String.valueOf(resultSet.getObject(i)));
                 }
-                list.add(String.join(DELIMITER,row));
+                list.add(String.join(DELIMITER, row));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             disconnect();
         }
         return list;
@@ -96,22 +83,17 @@ public class Database
 
     /**
      * Executes an SQL query
+     *
      * @param query SQL query
      */
-    public void executes(String query)
-    {
+    public void executes(String query) {
         connect();
-        try
-        {
+        try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             disconnect();
         }
     }

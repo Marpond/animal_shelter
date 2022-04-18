@@ -9,8 +9,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class RegistrationController implements Initializable
-{
+public class RegistrationController implements Initializable {
     private final Database DB = new Database();
 
     @FXML
@@ -35,8 +34,7 @@ public class RegistrationController implements Initializable
     public static int selectedPetID;
 
     @Override
-    public void initialize(java.net.URL location, java.util.ResourceBundle resources)
-    {
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
         // Default values
         searchCustomerButton.setDisable(true);
         customerDetailsListView.setDisable(true);
@@ -48,36 +46,31 @@ public class RegistrationController implements Initializable
     }
 
     @FXML
-    private void switchToBooking()
-    {
+    private void switchToBooking() {
         SceneController.load("booking");
     }
 
     @FXML
-    private void popupConfirmPayment()
-    {
+    private void popupConfirmPayment() {
         SceneController.popup("confirmPayment");
     }
+
     @FXML
-    private void popupAddCustomer()
-    {
+    private void popupAddCustomer() {
         SceneController.popup("addCustomer");
     }
 
     @FXML
-    private void popupAddPet()
-    {
+    private void popupAddPet() {
         SceneController.popup("addPet");
     }
 
     // Sets the listener for the customerPetsListView
     @FXML
-    private void setCustomerPetsListViewListener()
-    {
+    private void setCustomerPetsListViewListener() {
         customerPetsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
-            try
-            {
+            try {
                 // Set the selectedPetID to the ID of the selected pet
                 selectedPetID = Integer.parseInt(newValue.split(" ")[0]);
                 // Set the petSelectionConfirmationText to the name of the selected pet
@@ -86,24 +79,24 @@ public class RegistrationController implements Initializable
                 paymentButton.setDisable(false);
             }
             // If the selected item is null, do nothing
-            catch (Exception ignored) {}
+            catch (Exception ignored) {
+            }
         });
     }
+
     // Searches for a customer in the database with the phone number in the customerPhoneNoTextField
     // Sets the value of the selectedCustomerID
     @FXML
-    private void searchCustomerAndPet()
-    {
+    private void searchCustomerAndPet() {
         // Search for the customer by phone number and the pets by the owner's ID
         // If the customer exists, display the customer details and the pets
         String phoneNo = customerPhoneNumberTextField.getText();
-        try
-        {
+        try {
             // Disable the paymentButton
             paymentButton.setDisable(true);
             // Get the customer ID and name
             String query = String.format("select fld_customer_id, fld_customer_name from " +
-                                        "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
+                    "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
             System.out.println(query);
             ArrayList<String> customerIDAndName = DB.returns(query);
             // Set the customer ID and name
@@ -118,8 +111,7 @@ public class RegistrationController implements Initializable
             addPetButton.setDisable(false);
         }
         // If the customer does not exist, display an error message on both the customerDetailsListView and the customerPetsListView
-        catch (Exception e)
-        {
+        catch (Exception e) {
             System.out.println(e.getMessage());
             addPetButton.setDisable(true);
             customerDetailsListView.getItems().clear();
@@ -132,45 +124,42 @@ public class RegistrationController implements Initializable
     private void setCustomerPetsListView() {
         // Get the pets of the customer
         String query = String.format("select fld_animal_id, fld_animal_name, fld_animal_species, fld_animal_description " +
-                                    "from tbl_animals where fld_customer_id = %d", selectedCustomerID);
+                "from tbl_animals where fld_customer_id = %d", selectedCustomerID);
         ArrayList<String> selectedCustomerPets = DB.returns(query);
         customerPetsListView.getItems().clear();
         // Add the pets to the customerPetsListView
-        for (String s:selectedCustomerPets)
-        {
+        for (String s : selectedCustomerPets) {
             customerPetsListView.getItems().add(s.replace(DB.getDELIMITER(), " "));
         }
     }
 
     /**
      * Sets the customer details list view
+     *
      * @param phoneNo The phone number of the customer
      */
     private void setCustomerDetailsListView(String phoneNo) {
         // Get the details of the customer
         String query = String.format("select fld_customer_name, fld_customer_phone_number, fld_customer_address from " +
-                                    "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
+                "tbl_customers where fld_customer_phone_number = '%s'", phoneNo);
         ArrayList<String> selectedCustomerDetails =
                 DB.returns(query);
         customerDetailsListView.getItems().clear();
         // Add the details to the customerDetailsListView
-        for (String s:selectedCustomerDetails.get(0).split(DB.getDELIMITER()))
-        {
+        for (String s : selectedCustomerDetails.get(0).split(DB.getDELIMITER())) {
             customerDetailsListView.getItems().add(s);
         }
     }
 
     // Sets the listener for the customerPhoneNoTextField
-    private void setCustomerPhoneNoTextFieldListener()
-    {
+    private void setCustomerPhoneNoTextFieldListener() {
         // If the value of customerPhoneNoTextField is empty, disable the searchCustomerButton
         // Otherwise, enable it
         customerPhoneNumberTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 searchCustomerButton.setDisable(newValue.trim().isEmpty()));
     }
 
-    public static boolean checkForIllegalCharacters(String s)
-    {
+    public static boolean checkForIllegalCharacters(String s) {
         return s.contains("_") || s.contains(",");
     }
 }
